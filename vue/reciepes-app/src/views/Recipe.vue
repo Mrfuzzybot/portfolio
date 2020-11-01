@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-    <h1>Рецепт: {{ title }} </h1>
+    <h1>Recipe: {{ title }} </h1>
     <router-link to="/">Back</router-link>
     <p>{{ text }}</p>
   </div>
