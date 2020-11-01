@@ -123,7 +123,7 @@ export default {
     padding: 0 20px;
     margin-bottom: 10px;
     border: 1px solid black;
-    border-radius: 10px;
+    border-radius: 5px;
   }
   &_add {
     width: 50px;
@@ -151,7 +151,7 @@ export default {
   height: 80px;
   width: 100%;
   border: 1px solid black;
-  border-radius: 10px;
+  border-radius: 5px;
   padding: 0 20px;
   margin-bottom: 10px;
 

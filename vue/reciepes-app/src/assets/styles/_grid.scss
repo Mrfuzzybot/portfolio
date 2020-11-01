@@ -3,3 +3,17 @@
   max-width: 800px;
   margin: 0 auto;
 }
+
+.grid {
+  display: flex;
+  flex-wrap: wrap;
+  margin: 0 -15px;
+  .half {
+    padding: 0 15px;
+    width: 50%;
+  }
+  .full {
+    width: 100%;
+    padding: 0 15px;
+  }
+}
