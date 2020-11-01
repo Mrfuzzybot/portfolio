@@ -14,9 +14,9 @@
             >
             <span></span>
           </label>
-          <a href="#" class="recipes_add">
+          <router-link to="/new" class="recipes_add">
             <img src="../assets/img/icons/plus.svg" alt="">
-          </a>
+          </router-link>
           <div class="recipe_actions">
             <button @click="removeChosen">
               <img src="../assets/img/icons/delete.svg" alt="">
@@ -134,9 +134,13 @@ export default {
     align-items: center;
     justify-content: center;
     border: 1px solid #000000;
+    transition: 200ms border-color ease;
     img {
       width: 30px;
       height: 30px;
+    }
+    &:hover {
+      border: 1px solid #2077e7;
     }
   }
 }
@@ -170,6 +174,10 @@ export default {
       display: block;
       border: 1px solid black;
       border-radius: 5px;
+      transition: 200ms border-color ease;
+    }
+    &:hover span{
+      border-color: #2077e7;
     }
   }
 
@@ -178,6 +186,10 @@ export default {
     margin-right: auto;
     text-decoration: none;
     color: #000;
+    transition: 200ms color ease;
+    &:hover {
+      color: #2077e7;
+    }
   }
 
   &_actions {
@@ -185,6 +197,7 @@ export default {
     align-items: center;
     margin: 0 -10px;
     button, a {
+      transition: 200ms border-color ease;
       margin: 0 10px;
       width: 40px;
       height: 40px;
@@ -197,6 +210,9 @@ export default {
       img {
         width: 20px;
         height: 20px;
+      }
+      &:hover {
+        border-color: #2077e7;
       }
     }
   }
