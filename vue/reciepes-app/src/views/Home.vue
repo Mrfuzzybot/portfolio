@@ -38,11 +38,14 @@
             >
             <span></span>
           </label>
-          <a href="#" class="recipe_title">{{ recipe.title }}</a>
+          <router-link
+            :to="`/recipe/${recipe.id}`"
+            class="recipe_title"
+          >{{ recipe.title }}</router-link>
           <div class="recipe_actions">
-            <a href="#">
+            <router-link :to="`/edit/${recipe.id}`">
               <img src="../assets/img/icons/edit.svg" alt="">
-            </a>
+            </router-link>
             <button @click="removeCurrent(idx)">
               <img src="../assets/img/icons/delete.svg" alt="">
             </button>
