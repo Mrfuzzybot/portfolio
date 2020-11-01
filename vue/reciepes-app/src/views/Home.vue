@@ -6,46 +6,44 @@
       <div class="recipes">
         <div class="recipes_actions">
           <label for="all_cbx" class="recipe_checkbox">
-            <input type="checkbox" id="all_cbx">
+            <input
+              type="checkbox"
+              id="all_cbx"
+              :checked="isChosenAllRecipes"
+              @change="choseAllRecipes"
+            >
             <span></span>
           </label>
           <a href="#" class="recipes_add">
             <img src="../assets/img/icons/plus.svg" alt="">
           </a>
           <div class="recipe_actions">
-            <button>
+            <button @click="removeChosen">
               <img src="../assets/img/icons/delete.svg" alt="">
             </button>
           </div>
         </div>
 
-        <div class="recipe">
-          <label for="cbx1" class="recipe_checkbox">
-            <input type="checkbox" id="cbx1">
+        <div
+          class="recipe"
+          v-for="(recipe, idx) in recipes"
+          :key="idx"
+        >
+          <label :for="`cbx1_${idx}`" class="recipe_checkbox">
+            <input
+              type="checkbox"
+              :id="`cbx1_${idx}`"
+              :checked="recipe.isChosen"
+              @change="choseRecipe($event, idx)"
+            >
             <span></span>
           </label>
-          <a href="#" class="recipe_title">Рецепт 1</a>
+          <a href="#" class="recipe_title">{{ recipe.title }}</a>
           <div class="recipe_actions">
-            <button>
+            <a href="#">
               <img src="../assets/img/icons/edit.svg" alt="">
-            </button>
-            <button>
-              <img src="../assets/img/icons/delete.svg" alt="">
-            </button>
-          </div>
-        </div>
-
-        <div class="recipe">
-          <label for="cbx2" class="recipe_checkbox">
-            <input type="checkbox" id="cbx2">
-            <span></span>
-          </label>
-          <a href="#" class="recipe_title">Рецепт 2</a>
-          <div class="recipe_actions">
-            <button>
-              <img src="../assets/img/icons/edit.svg" alt="">
-            </button>
-            <button>
+            </a>
+            <button @click="removeCurrent(idx)">
               <img src="../assets/img/icons/delete.svg" alt="">
             </button>
           </div>
@@ -58,7 +56,60 @@
 
 <script>
 export default {
-  name: 'Home'
+  name: 'Home',
+  data: () => ({
+    recipes: [
+      { title: 'Рецепт 1', id: 'a', isChosen: false },
+      { title: 'Рецепт 2', id: 'b', isChosen: false },
+      { title: 'Рецепт 3', id: 'c', isChosen: false }
+    ]
+  }),
+  methods: {
+    choseAllRecipes () {
+      const isChosenAllRecipes = this.isChosenAllRecipes
+
+      this.recipes = this.recipes.map(el => {
+        el.isChosen = !isChosenAllRecipes
+        return el
+      })
+    },
+    choseRecipe (e, i) {
+      this.recipes = this.recipes.map((recipe, idx) => {
+        if (i === idx) {
+          recipe.isChosen = e.target.checked
+        }
+        return recipe
+      })
+    },
+    removeCurrent (i) {
+      this.recipes = this.recipes.filter((_, idx) => i !== idx)
+    },
+    removeChosen () {
+      this.recipes = this.recipes.filter((recipe) => !recipe.isChosen)
+    }
+  },
+  computed: {
+    isChosenAllRecipes () {
+      let isChosenAllRecipes = true
+
+      if (this.recipes.length > 0) {
+        this.recipes.forEach(r => {
+          if (!r.isChosen) {
+            isChosenAllRecipes = false
+          }
+        })
+      } else {
+        isChosenAllRecipes = false
+      }
+
+      return isChosenAllRecipes
+    }
+  },
+  watch: {
+    recipes (v) {
+      console.log(v)
+    }
+  }
 }
 </script>
 
@@ -101,7 +152,7 @@ export default {
   margin-bottom: 10px;
 
   &_checkbox {
-    margin-right: 10px;
+    margin-right: 20px;
     input {
       visibility: hidden;
       position: absolute;
@@ -133,7 +184,7 @@ export default {
     display: flex;
     align-items: center;
     margin: 0 -10px;
-    button {
+    button, a {
       margin: 0 10px;
       width: 40px;
       height: 40px;
@@ -142,6 +193,7 @@ export default {
       justify-content: center;
       background-color: transparent;
       border-radius: 5px;
+      border: 1px solid #000000;
       img {
         width: 20px;
         height: 20px;
@@ -149,4 +201,5 @@ export default {
     }
   }
 }
+
 </style>
