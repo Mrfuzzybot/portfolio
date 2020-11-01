@@ -9,6 +9,9 @@
             <input type="checkbox" id="all_cbx">
             <span></span>
           </label>
+          <a href="#" class="recipes_add">
+            <img src="../assets/img/icons/plus.svg" alt="">
+          </a>
           <div class="recipe_actions">
             <button>
               <img src="../assets/img/icons/delete.svg" alt="">
@@ -70,6 +73,20 @@ export default {
     margin-bottom: 10px;
     border: 1px solid black;
     border-radius: 10px;
+  }
+  &_add {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background-color: transparent;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid #000000;
+    img {
+      width: 30px;
+      height: 30px;
+    }
   }
 }
 
