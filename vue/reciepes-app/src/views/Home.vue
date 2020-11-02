@@ -23,10 +23,9 @@
             </button>
           </div>
         </div>
-
         <div
           class="recipe"
-          v-for="(recipe, idx) in recipes"
+          v-for="(recipe, idx) in getRecipes"
           :key="idx"
         >
           <label :for="`cbx1_${idx}`" class="recipe_checkbox">
@@ -34,19 +33,20 @@
               type="checkbox"
               :id="`cbx1_${idx}`"
               :checked="recipe.isChosen"
-              @change="choseRecipe($event, idx)"
+              @change="choseRecipe({id: recipe.id, isChosen: $event.target.checked})"
             >
             <span></span>
           </label>
           <router-link
             :to="`/recipe/${recipe.id}`"
             class="recipe_title"
-          >{{ recipe.title }}</router-link>
+          >{{ recipe.title }}
+          </router-link>
           <div class="recipe_actions">
             <router-link :to="`/edit/${recipe.id}`">
               <img src="../assets/img/icons/edit.svg" alt="">
             </router-link>
-            <button @click="removeCurrent(idx)">
+            <button @click="removeRecipe(recipe.id)">
               <img src="../assets/img/icons/delete.svg" alt="">
             </button>
           </div>
@@ -58,60 +58,24 @@
 </template>
 
 <script>
+import { mapGetters, mapMutations } from 'vuex'
+
 export default {
   name: 'Home',
-  data: () => ({
-    recipes: [
-      { title: 'Рецепт 1', id: 'a', isChosen: false },
-      { title: 'Рецепт 2', id: 'b', isChosen: false },
-      { title: 'Рецепт 3', id: 'c', isChosen: false }
-    ]
-  }),
   methods: {
-    choseAllRecipes () {
-      const isChosenAllRecipes = this.isChosenAllRecipes
-
-      this.recipes = this.recipes.map(el => {
-        el.isChosen = !isChosenAllRecipes
-        return el
-      })
-    },
-    choseRecipe (e, i) {
-      this.recipes = this.recipes.map((recipe, idx) => {
-        if (i === idx) {
-          recipe.isChosen = e.target.checked
-        }
-        return recipe
-      })
-    },
-    removeCurrent (i) {
-      this.recipes = this.recipes.filter((_, idx) => i !== idx)
-    },
-    removeChosen () {
-      this.recipes = this.recipes.filter((recipe) => !recipe.isChosen)
-    }
+    ...mapMutations([
+      'removeRecipe',
+      'removeChosen',
+      'removeRecipe',
+      'choseRecipe',
+      'choseAllRecipes'
+    ])
   },
   computed: {
-    isChosenAllRecipes () {
-      let isChosenAllRecipes = true
-
-      if (this.recipes.length > 0) {
-        this.recipes.forEach(r => {
-          if (!r.isChosen) {
-            isChosenAllRecipes = false
-          }
-        })
-      } else {
-        isChosenAllRecipes = false
-      }
-
-      return isChosenAllRecipes
-    }
-  },
-  watch: {
-    recipes (v) {
-      console.log(v)
-    }
+    ...mapGetters([
+      'getRecipes',
+      'isChosenAllRecipes'
+    ])
   }
 }
 </script>
@@ -128,6 +92,7 @@ export default {
     border: 1px solid black;
     border-radius: 5px;
   }
+
   &_add {
     width: 50px;
     height: 50px;
@@ -138,10 +103,12 @@ export default {
     justify-content: center;
     border: 1px solid #000000;
     transition: 200ms border-color ease;
+
     img {
       width: 30px;
       height: 30px;
     }
+
     &:hover {
       border: 1px solid #2077e7;
     }
@@ -160,10 +127,12 @@ export default {
 
   &_checkbox {
     margin-right: 20px;
+
     input {
       visibility: hidden;
       position: absolute;
       z-index: -1;
+
       &:checked + span {
         background-image: url('../assets/img/icons/check.svg');
         background-position: center center;
@@ -171,6 +140,7 @@ export default {
         background-size: 20px;
       }
     }
+
     span {
       width: 35px;
       height: 35px;
@@ -179,7 +149,8 @@ export default {
       border-radius: 5px;
       transition: 200ms border-color ease;
     }
-    &:hover span{
+
+    &:hover span {
       border-color: #2077e7;
     }
   }
@@ -190,6 +161,7 @@ export default {
     text-decoration: none;
     color: #000;
     transition: 200ms color ease;
+
     &:hover {
       color: #2077e7;
     }
@@ -199,6 +171,7 @@ export default {
     display: flex;
     align-items: center;
     margin: 0 -10px;
+
     button, a {
       transition: 200ms border-color ease;
       margin: 0 10px;
@@ -210,10 +183,12 @@ export default {
       background-color: transparent;
       border-radius: 5px;
       border: 1px solid #000000;
+
       img {
         width: 20px;
         height: 20px;
       }
+
       &:hover {
         border-color: #2077e7;
       }
