@@ -2,12 +2,19 @@
   <div class="container">
     <h1>New recipe</h1>
     <router-link to="/">Back</router-link>
-    <form class="grid">
+    <form class="grid" @submit.prevent="handleSubmit">
       <div class="half">
-        <input type="text" placeholder="Название">
+        <input
+          type="text"
+          placeholder="Название"
+          v-model="title"
+        >
       </div>
       <div class="full">
-        <textarea placeholder="Рецепт"></textarea>
+        <textarea
+          placeholder="Рецепт"
+          v-model="text"
+        ></textarea>
       </div>
       <div class="full">
         <button class="submit_btn" type="submit">Save</button>
@@ -17,8 +24,26 @@
 </template>
 
 <script>
+import { mapMutations } from 'vuex'
+
 export default {
-  name: 'New'
+  name: 'New',
+  data: () => ({
+    title: '',
+    text: ''
+  }),
+  methods: {
+    ...mapMutations(['addRecipe']),
+    handleSubmit () {
+      this.addRecipe({
+        title: this.title,
+        text: this.text
+      })
+
+      this.title = ''
+      this.text = ''
+    }
+  }
 }
 </script>
 

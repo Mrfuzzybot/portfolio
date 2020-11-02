@@ -4,6 +4,7 @@ export default {
       state.recipes = recipes
     },
     addRecipe (state, recipe) {
+      recipe.id = Date.now()
       state.recipes.push(recipe)
     },
     removeRecipe (state, id) {
