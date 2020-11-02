@@ -7,6 +7,15 @@ export default {
       recipe.id = Date.now().toString()
       state.recipes.push(recipe)
     },
+    updateRecipe (state, { id, title, text }) {
+      state.recipes = state.recipes.map(r => {
+        if (r.id === id) {
+          r.title = title
+          r.text = text
+        }
+        return r
+      })
+    },
     removeRecipe (state, id) {
       state.recipes = state.recipes.filter(r => r.id !== id)
     },

@@ -2,12 +2,19 @@
   <div class="container">
     <h1>Edit recipe:</h1>
     <router-link to="/">Back</router-link>
-    <form class="grid">
+    <form class="grid" @submit.prevent="handleSubmit">
       <div class="half">
-        <input type="text" placeholder="Title">
+        <input
+          type="text"
+          placeholder="Title"
+          v-model="title"
+        >
       </div>
       <div class="full">
-        <textarea placeholder="Recipe"></textarea>
+        <textarea
+          v-model="text"
+          placeholder="Recipe"
+        ></textarea>
       </div>
       <div class="full">
         <button class="submit_btn" type="submit">Save</button>
@@ -17,8 +24,29 @@
 </template>
 
 <script>
+import { mapGetters, mapMutations } from 'vuex'
+
 export default {
-  name: 'Edit'
+  name: 'Edit',
+  data: () => ({
+    title: '',
+    text: '',
+    id: ''
+  }),
+  computed: mapGetters(['getRecipes']),
+  methods: {
+    ...mapMutations(['updateRecipe']),
+    handleSubmit () {
+      this.updateRecipe(this)
+      this.$router.push('/')
+    }
+  },
+  mounted () {
+    this.id = this.$route.params.id
+    const { title, text } = this.getRecipes.find(r => r.id === this.id)
+    this.title = title
+    this.text = text
+  }
 }
 </script>
 
