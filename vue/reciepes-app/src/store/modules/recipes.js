@@ -4,7 +4,7 @@ export default {
       state.recipes = recipes
     },
     addRecipe (state, recipe) {
-      recipe.id = Date.now()
+      recipe.id = Date.now().toString()
       state.recipes.push(recipe)
     },
     removeRecipe (state, id) {
@@ -43,15 +43,13 @@ export default {
   },
   state: {
     recipes: [
-      { title: 'Рецепт 1', id: 'a', isChosen: false },
-      { title: 'Рецепт 2', id: 'b', isChosen: false },
-      { title: 'Рецепт 3', id: 'c', isChosen: false }
-    ],
-    isChosenAllRecipes: false
+      { title: 'Рецепт 1', id: 'a', text: 'Lorem lorem lorem. Lorem lorem lorem lorem lorem. Lorem lorem lorem', isChosen: false },
+      { title: 'Рецепт 2', id: 'b', text: 'Lorem lorem lorem. Lorem lorem lorem lorem lorem. Lorem lorem lorem', isChosen: false },
+      { title: 'Рецепт 3', id: 'c', text: 'Lorem lorem lorem. Lorem lorem lorem lorem lorem. Lorem lorem lorem', isChosen: false }
+    ]
   },
   getters: {
     getRecipes: state => state.recipes,
-    getRecipe: (state, id) => state.find(r => r.id === id),
     isChosenAllRecipes: (state) => {
       let isChosenAllRecipes = true
 

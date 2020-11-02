@@ -7,12 +7,22 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
+
 export default {
   name: 'Recipe',
   data: () => ({
-    title: 'Картошка по-киевски',
-    text: 'Картошка по-киевски, Картошка по-киевски, Картошка по-киевски, Картошка по-киевски'
-  })
+    title: 'Undefined',
+    text: ''
+  }),
+  computed: mapGetters(['getRecipes']),
+  mounted () {
+    console.log(this.getRecipes)
+    const id = this.$route.params.id
+    const { title, text } = this.getRecipes.find(r => r.id === id)
+    this.title = title
+    this.text = text
+  }
 }
 </script>
 
