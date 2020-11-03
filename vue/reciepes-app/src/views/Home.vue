@@ -23,6 +23,7 @@
             </button>
           </div>
         </div>
+
         <div
           class="recipe"
           v-for="(recipe, idx) in getRecipes"
@@ -40,7 +41,7 @@
           <router-link
             :to="`/recipe/${recipe.id}`"
             class="recipe_title"
-          >{{ recipe.title }}
+          >{{ recipe.title | truncate(truncateLength) }}
           </router-link>
           <div class="recipe_actions">
             <router-link :to="`/edit/${recipe.id}`">
@@ -51,7 +52,6 @@
             </button>
           </div>
         </div>
-
       </div>
     </div>
   </div>
@@ -76,7 +76,18 @@ export default {
     ...mapGetters([
       'getRecipes',
       'isChosenAllRecipes'
-    ])
+    ]),
+    truncateLength () {
+      const documentWidth = document.documentElement.clientWidth
+      if (documentWidth < 370) {
+        return 10
+      } else if (documentWidth < 575) {
+        return 14
+      } else if (documentWidth < 800) {
+        return 20
+      }
+      return 30
+    }
   },
   mounted () {
     this.getRecipesFromStorage()
@@ -200,4 +211,43 @@ export default {
   }
 }
 
+@media screen and (max-width: 480px){
+  .recipes {
+    &_actions {
+      height: 60px;
+    }
+    &_add {
+      width: 40px;
+      height: 40px;
+      img {
+        width: 25px;
+        height: 25px;
+      }
+    }
+  }
+
+  .recipe {
+    height: 60px;
+    &_actions {
+      margin: 0 -5px;
+      button, a {
+        margin: 0 5px;
+        width: 30px;
+        height: 30px;
+
+        img {
+          width: 15px;
+          height: 15px;
+        }
+      }
+    }
+    &_checkbox span {
+      width: 25px;
+      height: 25px;
+    }
+    &_title {
+      font-size: 20px;
+    }
+  }
+}
 </style>

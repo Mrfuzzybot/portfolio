@@ -17,3 +17,9 @@
     padding: 0 15px;
   }
 }
+
+@media screen and (max-width: 480px) {
+  .grid .mobile_full {
+    width: 100%;
+  }
+}
