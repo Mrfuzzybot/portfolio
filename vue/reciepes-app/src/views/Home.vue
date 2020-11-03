@@ -18,15 +18,25 @@
             <img src="../assets/img/icons/plus.svg" alt="">
           </router-link>
           <div class="recipe_actions">
+            <button @click="toggleVisibilityOfSearchBar">
+              <img src="../assets/img/icons/search.svg" alt="">
+            </button>
             <button @click="removeChosen">
               <img src="../assets/img/icons/delete.svg" alt="">
             </button>
           </div>
         </div>
 
+        <div class="recipes_search" v-if="isVisibleSearchBar">
+          <input
+            type="text"
+            @input="search($event.target.value)"
+          >
+        </div>
+
         <div
           class="recipe"
-          v-for="(recipe, idx) in getRecipes"
+          v-for="(recipe, idx) in recipes"
           :key="idx"
         >
           <label :for="`cbx1_${idx}`" class="recipe_checkbox">
@@ -69,14 +79,22 @@ export default {
       'removeRecipe',
       'choseRecipe',
       'choseAllRecipes',
-      'getRecipesFromStorage'
+      'getRecipesFromStorage',
+      'toggleVisibilityOfSearchBar',
+      'search'
     ])
   },
   computed: {
     ...mapGetters([
       'getRecipes',
-      'isChosenAllRecipes'
+      'isChosenAllRecipes',
+      'isVisibleSearchBar',
+      'foundedRecipes'
     ]),
+    recipes () {
+      console.log('this.foundedRecipes', this.foundedRecipes)
+      return this.isVisibleSearchBar ? this.foundedRecipes : this.getRecipes
+    },
     truncateLength () {
       const documentWidth = document.documentElement.clientWidth
       if (documentWidth < 370) {
@@ -98,6 +116,7 @@ export default {
 <style lang="scss">
 .recipes {
   &_actions {
+    position: relative;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -108,7 +127,26 @@ export default {
     border-radius: 5px;
   }
 
+  &_search {
+    height: 60px;
+    border: 1px solid black;
+    border-radius: 5px;
+    margin-bottom: 10px;
+    input {
+      padding-left: 75px;
+      padding-right: 120px;
+      border: none;
+      width: 100%;
+      height: 100%;
+      font-size: 28px;
+    }
+  }
+
   &_add {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
     width: 50px;
     height: 50px;
     border-radius: 50%;
@@ -222,6 +260,14 @@ export default {
       img {
         width: 25px;
         height: 25px;
+      }
+    }
+    &_search {
+      height: 40px;
+      input {
+        padding-left: 65px;
+        padding-right: 90px;
+        font-size: 20px;
       }
     }
   }

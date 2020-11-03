@@ -1,5 +1,17 @@
 export default {
   mutations: {
+    toggleVisibilityOfSearchBar (state) {
+      state.search.value = ''
+      state.search.founded = state.recipes
+      state.search.isVisibleSearchBar = !state.search.isVisibleSearchBar
+    },
+    search (state, text) {
+      state.search.founded = state.recipes.filter(r => {
+        return r.title
+          .toLowerCase()
+          .includes(text.toLowerCase())
+      })
+    },
     getRecipesFromStorage (state) {
       localStorage.getItem('recipes')
       state.recipes = JSON.parse(localStorage.getItem('recipes')) || []
@@ -47,7 +59,12 @@ export default {
     }
   },
   state: {
-    recipes: []
+    recipes: [],
+    search: {
+      value: '',
+      founded: [],
+      isVisibleSearchBar: false
+    }
   },
   getters: {
     getRecipes: state => state.recipes,
@@ -66,6 +83,8 @@ export default {
       }
 
       return isChosenAllRecipes
-    }
+    },
+    isVisibleSearchBar: state => state.search.isVisibleSearchBar,
+    foundedRecipes: state => state.search.founded
   }
 }

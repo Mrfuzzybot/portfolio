@@ -3,7 +3,7 @@
     <h1>Edit recipe:</h1>
     <router-link to="/">Back</router-link>
     <form class="grid" @submit.prevent="handleSubmit">
-      <div class="half">
+      <div class="half mobile_full">
         <input
           type="text"
           placeholder="Title"

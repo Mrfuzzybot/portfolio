@@ -6,13 +6,13 @@
       <div class="half mobile_full">
         <input
           type="text"
-          placeholder="Название"
+          placeholder="Title"
           v-model="title"
         >
       </div>
       <div class="full">
         <textarea
-          placeholder="Рецепт"
+          placeholder="Recipe"
           v-model="text"
         ></textarea>
       </div>
