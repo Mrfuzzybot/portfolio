@@ -1,0 +1,16 @@
+* {
+  box-sizing: border-box;
+  &:before, &:after {
+    box-sizing: border-box;
+  }
+}
+
+body {
+  font-family: Poppins, sans-serif;
+}
+
+button, a, label, input[type=checkbox]{
+  &:hover {
+    cursor: pointer;
+  }
+}
