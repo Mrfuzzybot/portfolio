@@ -1,11 +1,13 @@
 export default {
   mutations: {
-    setRecipes (state, recipes) {
-      state.recipes = recipes
+    getRecipesFromStorage (state) {
+      localStorage.getItem('recipes')
+      state.recipes = JSON.parse(localStorage.getItem('recipes')) || []
     },
     addRecipe (state, recipe) {
       recipe.id = Date.now().toString()
       state.recipes.push(recipe)
+      localStorage.setItem('recipes', JSON.stringify(state.recipes))
     },
     updateRecipe (state, { id, title, text }) {
       state.recipes = state.recipes.map(r => {
@@ -15,12 +17,15 @@ export default {
         }
         return r
       })
+      localStorage.setItem('recipes', JSON.stringify(state.recipes))
     },
     removeRecipe (state, id) {
       state.recipes = state.recipes.filter(r => r.id !== id)
+      localStorage.setItem('recipes', JSON.stringify(state.recipes))
     },
     removeChosen (state) {
       state.recipes = state.recipes.filter(r => !r.isChosen)
+      localStorage.setItem('recipes', JSON.stringify(state.recipes))
     },
     choseRecipe (state, { id, isChosen }) {
       state.recipes = state.recipes.map(r => {
@@ -29,37 +34,25 @@ export default {
         }
         return r
       })
+      localStorage.setItem('recipes', JSON.stringify(state.recipes))
     },
     choseAllRecipes (state) {
-      // Было бы неплохо сделать computed свойство isChosenAllRecipes
-      let isChosenAllRecipes = true
-
-      if (state.recipes.length > 0) {
-        state.recipes.forEach(r => {
-          if (!r.isChosen) {
-            isChosenAllRecipes = false
-          }
-        })
-      } else {
-        isChosenAllRecipes = false
-      }
+      const isChosenAllRecipes = this.getters.isChosenAllRecipes
 
       state.recipes = state.recipes.map(el => {
         el.isChosen = !isChosenAllRecipes
         return el
       })
+      localStorage.setItem('recipes', JSON.stringify(state.recipes))
     }
   },
   state: {
-    recipes: [
-      { title: 'Рецепт 1', id: 'a', text: 'Lorem lorem lorem. Lorem lorem lorem lorem lorem. Lorem lorem lorem', isChosen: false },
-      { title: 'Рецепт 2', id: 'b', text: 'Lorem lorem lorem. Lorem lorem lorem lorem lorem. Lorem lorem lorem', isChosen: false },
-      { title: 'Рецепт 3', id: 'c', text: 'Lorem lorem lorem. Lorem lorem lorem lorem lorem. Lorem lorem lorem', isChosen: false }
-    ]
+    recipes: []
   },
   getters: {
     getRecipes: state => state.recipes,
-    isChosenAllRecipes: (state) => {
+    getRecipe: state => (id) => state.recipes.find(r => r.id === id),
+    isChosenAllRecipes: state => {
       let isChosenAllRecipes = true
 
       if (state.recipes.length > 0) {

@@ -68,7 +68,8 @@ export default {
       'removeChosen',
       'removeRecipe',
       'choseRecipe',
-      'choseAllRecipes'
+      'choseAllRecipes',
+      'getRecipesFromStorage'
     ])
   },
   computed: {
@@ -76,6 +77,9 @@ export default {
       'getRecipes',
       'isChosenAllRecipes'
     ])
+  },
+  mounted () {
+    this.getRecipesFromStorage()
   }
 }
 </script>

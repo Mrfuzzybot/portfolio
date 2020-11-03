@@ -15,13 +15,11 @@ export default {
     title: 'Undefined',
     text: ''
   }),
-  computed: mapGetters(['getRecipes']),
+  computed: mapGetters(['getRecipe']),
   mounted () {
-    console.log(this.getRecipes)
-    const id = this.$route.params.id
-    const { title, text } = this.getRecipes.find(r => r.id === id)
-    this.title = title
-    this.text = text
+    const recipe = this.getRecipe(this.$route.params.id)
+    this.title = recipe.title
+    this.text = recipe.text
   }
 }
 </script>
