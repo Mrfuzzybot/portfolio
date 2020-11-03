@@ -92,7 +92,6 @@ export default {
       'foundedRecipes'
     ]),
     recipes () {
-      console.log('this.foundedRecipes', this.foundedRecipes)
       return this.isVisibleSearchBar ? this.foundedRecipes : this.getRecipes
     },
     truncateLength () {

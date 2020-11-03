@@ -5,7 +5,5 @@ import recipes from '@/store/modules/recipes'
 Vue.use(Vuex)
 
 export default new Vuex.Store({
-  modules: {
-    recipes
-  }
+  modules: { recipes }
 })

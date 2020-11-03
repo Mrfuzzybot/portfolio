@@ -39,7 +39,6 @@ export default {
         title: this.title,
         text: this.text
       })
-
       this.title = ''
       this.text = ''
     }
