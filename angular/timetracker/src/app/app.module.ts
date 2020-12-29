@@ -16,13 +16,15 @@ import { MatDatepickerModule } from '@angular/material/datepicker'
 import { MatNativeDateModule } from '@angular/material/core'
 import { MatFormFieldModule } from '@angular/material/form-field'
 import { MatInputModule } from '@angular/material/input'
+import { TimePlayerComponentComponent } from './main-page/components/time-player-component/time-player-component.component'
 
 @NgModule({
   declarations: [
     AppComponent,
     LoginPageComponent,
     MainPageComponent,
-    TimeTableComponentComponent
+    TimeTableComponentComponent,
+    TimePlayerComponentComponent
   ],
   imports: [
     BrowserModule,

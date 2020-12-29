@@ -3,3 +3,28 @@
 
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+.container {
+  max-width: 1400px;
+  padding: 0 15px;
+  margin: 0 auto;
+}
+
+.mla {
+  margin-left: auto !important;
+}
+
+.mt-2 {
+  margin-top: 2rem !important;
+}
+
+.row {
+  display: flex;
+  flex-wrap: wrap;
+  margin: 0 -15px;
+}
+
+.col {
+  width: calc(50% - 30px);
+  padding: 0 15px;
+}

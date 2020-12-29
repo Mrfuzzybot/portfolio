@@ -14,7 +14,9 @@ export class TimeTableComponentComponent implements OnInit {
     {start: '05:00', end: '10:00', comment: 'GG', time: '300'},
   ]
 
+
   displayedColumns: string[] = ['start', 'end', 'comment', 'time']
+
   constructor() { }
 
   ngOnInit(): void {
