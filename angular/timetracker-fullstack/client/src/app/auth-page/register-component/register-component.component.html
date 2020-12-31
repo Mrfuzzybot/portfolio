@@ -1,24 +1,31 @@
-<div class="wrap">
+<form
+  class="wrap"
+  [formGroup]="form"
+  (ngSubmit)="onSubmit()"
+>
+  <h1>Register</h1>
   <div>
     <mat-form-field appearance="fill">
       <mat-label>Email</mat-label>
-      <input matInput type="text">
+      <input
+        formControlName="email"
+        matInput
+        type="text"
+      >
     </mat-form-field>
   </div>
   <div>
     <mat-form-field appearance="fill">
       <mat-label>Password</mat-label>
-      <input matInput type="password">
-    </mat-form-field>
-  </div>
-  <div>
-    <mat-form-field appearance="fill">
-      <mat-label>Repeat the password</mat-label>
-      <input matInput type="password">
+      <input
+        formControlName="password"
+        matInput
+        type="password"
+      >
     </mat-form-field>
   </div>
   <div class="button-center">
-    <button mat-raised-button color="primary">Войти</button>
+    <button mat-raised-button color="primary" type="submit">Войти</button>
   </div>
 
-</div>
+</form>
