@@ -1,10 +1,12 @@
 const Time = require('../models/Time')
+const moment = require('moment')
 const errorHandler = require('../utils/errorHandler')
 
 module.exports.start = async function(req, res) {
   const time = new Time({
     started: Date.now(),
     user: req.user.id,
+    date: moment(Date.now()).format('DD.MM.YYYY')
   })
   try {
     await time.save()
@@ -27,6 +29,31 @@ module.exports.end = async function(req, res) {
     } else {
       errorHandler(res, 'startTime not found')
     }
+  } catch (e) {
+    errorHandler(res, e)
+  }
+}
+
+module.exports.get = async function(req, res) {
+  try {
+    const query = {
+      user: req.user.id
+    }
+
+    if (req.query.start && !req.query.end) {
+      query.date = moment(req.query.date).format('DD.MM.YYYY')
+    }
+
+    if (req.query.start && req.query.end) {
+      query.start = {
+        $gte: moment(req.query.start).format('DD.MM.YYYY'),
+        $lte: moment(req.query.end).format('DD.MM.YYYY')
+      }
+    }
+
+    const times = await Time.find(query)
+
+    res.status(200).json(times)
   } catch (e) {
     errorHandler(res, e)
   }
