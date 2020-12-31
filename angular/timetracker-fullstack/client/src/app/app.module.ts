@@ -16,7 +16,13 @@ import { MatDatepickerModule } from '@angular/material/datepicker'
 import { MatNativeDateModule } from '@angular/material/core'
 import { MatFormFieldModule } from '@angular/material/form-field'
 import { MatInputModule } from '@angular/material/input'
-import { TimePlayerComponentComponent } from './main-page/components/time-player-component/time-player-component.component'
+import { TimePlayerComponentComponent } from './main-page/components/time-player-component/time-player-component.component';
+import { AuthPageComponent } from './auth-page/auth-page.component'
+import { HttpClientModule } from '@angular/common/http'
+import { MatTabsModule } from '@angular/material/tabs';
+import { LoginComponentComponent } from './auth-page/login-component/login-component.component';
+import { RegisterComponentComponent } from './auth-page/register-component/register-component.component'
+import { FormsModule, ReactiveFormsModule } from '@angular/forms'
 
 @NgModule({
   declarations: [
@@ -24,12 +30,18 @@ import { TimePlayerComponentComponent } from './main-page/components/time-player
     LoginPageComponent,
     MainPageComponent,
     TimeTableComponentComponent,
-    TimePlayerComponentComponent
+    TimePlayerComponentComponent,
+    AuthPageComponent,
+    LoginComponentComponent,
+    RegisterComponentComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
+    ReactiveFormsModule,
+    FormsModule,
     BrowserAnimationsModule,
+    HttpClientModule,
     MatIconModule,
     MatButtonModule,
     MatToolbarModule,
@@ -39,6 +51,7 @@ import { TimePlayerComponentComponent } from './main-page/components/time-player
     MatNativeDateModule,
     MatFormFieldModule,
     MatInputModule,
+    MatTabsModule,
   ],
   providers: [],
   bootstrap: [AppComponent]
