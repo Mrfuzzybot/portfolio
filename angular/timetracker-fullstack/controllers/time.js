@@ -58,3 +58,33 @@ module.exports.get = async function(req, res) {
     errorHandler(res, e)
   }
 }
+
+module.exports.remove = async function(req, res) {
+  try {
+    await Time.remove({_id: req.params.id})
+
+    res.status(200).json({
+      message: 'Время удалено'
+    })
+  } catch (e) {
+    errorHandler(res, e)
+  }
+}
+
+module.exports.comment = async function(req, res) {
+  try {
+    const time = await Time.findOne({id: req.query.id})
+    if (time) {
+      const updatedTime = await Time.findOneAndUpdate(
+        {_id: time.id},
+        {$set: {comment: req.body.comment}},
+        {new: true}
+      )
+      res.status(200).json({message: 'Commented', updatedTime})
+    } else {
+      errorHandler(res, 'Incorrect id')
+    }
+  } catch (e) {
+    errorHandler(res, e)
+  }
+}
