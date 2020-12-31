@@ -18,11 +18,12 @@ import { MatFormFieldModule } from '@angular/material/form-field'
 import { MatInputModule } from '@angular/material/input'
 import { TimePlayerComponentComponent } from './main-page/components/time-player-component/time-player-component.component';
 import { AuthPageComponent } from './auth-page/auth-page.component'
-import { HttpClientModule } from '@angular/common/http'
+import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http'
 import { MatTabsModule } from '@angular/material/tabs';
 import { LoginComponentComponent } from './auth-page/login-component/login-component.component';
 import { RegisterComponentComponent } from './auth-page/register-component/register-component.component'
 import { FormsModule, ReactiveFormsModule } from '@angular/forms'
+import { TokenInterceptor } from './shared/classes/token.interceptor'
 
 @NgModule({
   declarations: [
@@ -38,10 +39,11 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms'
   imports: [
     BrowserModule,
     AppRoutingModule,
-    ReactiveFormsModule,
     FormsModule,
+    ReactiveFormsModule,
     BrowserAnimationsModule,
     HttpClientModule,
+
     MatIconModule,
     MatButtonModule,
     MatToolbarModule,
@@ -53,7 +55,13 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms'
     MatInputModule,
     MatTabsModule,
   ],
-  providers: [],
+  providers: [
+    {
+      provide: HTTP_INTERCEPTORS,
+      multi: true,
+      useClass: TokenInterceptor
+    }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule {

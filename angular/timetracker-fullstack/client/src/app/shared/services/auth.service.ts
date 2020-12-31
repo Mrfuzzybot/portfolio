@@ -7,7 +7,7 @@ import { tap } from 'rxjs/operators'
 @Injectable({providedIn: 'root'})
 export class AuthService {
 
-  private token = null
+  private token = localStorage.getItem('auth-token') || null
 
   constructor(private http: HttpClient) {
   }
