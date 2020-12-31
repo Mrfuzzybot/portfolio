@@ -1,0 +1,20 @@
+a {
+  text-decoration: none;
+  color: #673ab7;
+  &:hover {
+    text-decoration: underline;
+  }
+}
+
+.wrap {
+  margin: 0 auto;
+  max-width: 700px;
+}
+
+.links {
+  display: flex;
+  margin: 0 -5px;
+  a {
+    margin: 0 5px;
+  }
+}

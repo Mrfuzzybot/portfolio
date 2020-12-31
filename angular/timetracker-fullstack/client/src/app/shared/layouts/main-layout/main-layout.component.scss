@@ -1,0 +1,13 @@
+.navbar a {
+  text-decoration: none;
+  color: #fff;
+  font-size: 14px;
+  margin-right: 10px;
+  &.active {
+    text-decoration: underline;
+  }
+  &:hover {
+    color: #BFBFBF;
+  }
+}
+

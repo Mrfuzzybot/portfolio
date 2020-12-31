@@ -15,24 +15,28 @@ import { MatDatepickerModule } from '@angular/material/datepicker'
 import { MatNativeDateModule } from '@angular/material/core'
 import { MatFormFieldModule } from '@angular/material/form-field'
 import { MatInputModule } from '@angular/material/input'
-import { TimePlayerComponentComponent } from './main-page/components/time-player-component/time-player-component.component';
+import { TimePlayerComponentComponent } from './main-page/components/time-player-component/time-player-component.component'
 import { AuthPageComponent } from './auth-page/auth-page.component'
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http'
-import { MatTabsModule } from '@angular/material/tabs';
-import { LoginComponentComponent } from './auth-page/login-component/login-component.component';
+import { MatTabsModule } from '@angular/material/tabs'
+import { LoginComponentComponent } from './auth-page/login-component/login-component.component'
 import { RegisterComponentComponent } from './auth-page/register-component/register-component.component'
 import { FormsModule, ReactiveFormsModule } from '@angular/forms'
 import { TokenInterceptor } from './shared/classes/token.interceptor'
+import { MainLayoutComponent } from './shared/layouts/main-layout/main-layout.component';
+import { AboutPageComponent } from './about-page/about-page.component'
 
 @NgModule({
   declarations: [
     AppComponent,
+    MainLayoutComponent,
     MainPageComponent,
     TimeTableComponentComponent,
     TimePlayerComponentComponent,
     AuthPageComponent,
     LoginComponentComponent,
-    RegisterComponentComponent
+    RegisterComponentComponent,
+    AboutPageComponent
   ],
   imports: [
     BrowserModule,
@@ -51,7 +55,7 @@ import { TokenInterceptor } from './shared/classes/token.interceptor'
     MatNativeDateModule,
     MatFormFieldModule,
     MatInputModule,
-    MatTabsModule,
+    MatTabsModule
   ],
   providers: [
     {

@@ -1,0 +1,15 @@
+<div class="navbar">
+  <mat-toolbar color="primary">
+    <a routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">Time tracker</a>
+    <span class="example-spacer"></span>
+    <div class="mla">
+      <a routerLink="about" routerLinkActive="active">Эбаут</a>
+      <button mat-button class="" (click)="logout()">Выйти</button>
+    </div>
+  </mat-toolbar>
+
+</div>
+
+<div class="container mt-2">
+  <router-outlet></router-outlet>
+</div>
