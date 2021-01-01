@@ -6,6 +6,7 @@ const router = express.Router()
 router.get('/start', passport.authenticate('jwt', {session: false}), controller.start)
 router.get('/end', passport.authenticate('jwt', {session: false}), controller.end)
 router.get('/get', passport.authenticate('jwt', {session: false}), controller.get)
+router.get('/getStatus', passport.authenticate('jwt', {session: false}), controller.getStatus)
 router.delete('/:id', passport.authenticate('jwt', {session: false}), controller.remove)
 router.post('/comment/:id', passport.authenticate('jwt', {session: false}), controller.comment)
 

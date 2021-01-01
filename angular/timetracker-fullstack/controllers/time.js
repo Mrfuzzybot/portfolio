@@ -8,8 +8,13 @@ module.exports.start = async function(req, res) {
     user: req.user.id,
     date: moment(Date.now()).format('DD.MM.YYYY')
   })
+  const startedTime = await Time.findOne({user: req.user.id, ended: undefined})
   try {
-    await time.save()
+    if (startedTime) {
+      errorHandler(res, 'Time is already going')
+    } else {
+      await time.save()
+    }
     res.status(200).json({message: 'started', started: time.started})
   } catch (e) {
     errorHandler(res, e)
@@ -83,6 +88,19 @@ module.exports.comment = async function(req, res) {
       res.status(200).json({message: 'Commented', updatedTime})
     } else {
       errorHandler(res, 'Incorrect id')
+    }
+  } catch (e) {
+    errorHandler(res, e)
+  }
+}
+
+module.exports.getStatus = async function(req, res) {
+  const startedTime = await Time.findOne({user: req.user.id, ended: undefined})
+  try {
+    if (startedTime) {
+      res.status(200).json({message: 'Founded', startedTime})
+    } else {
+      res.status(200).json({message: 'Not founded'})
     }
   } catch (e) {
     errorHandler(res, e)
