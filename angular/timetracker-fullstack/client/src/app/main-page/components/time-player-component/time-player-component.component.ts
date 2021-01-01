@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core'
 import * as moment from 'moment'
 import { Moment } from 'moment'
+import { TimeService } from '../../../shared/services/time.service'
 
 @Component({
   selector: 'app-time-player-component',
@@ -14,41 +15,51 @@ export class TimePlayerComponentComponent implements OnInit {
   timeInt: number
   time = '00:00:00'
 
-  constructor() { }
+  constructor(private timeService: TimeService) { }
 
   ngOnInit(): void {
     this.loading = true
-    this.playing = false
-    setTimeout(() => {
+    this.timeService.getStatus().subscribe(data => {
       this.loading = false
-    }, 1000)
+      if (data.startedTime) {
+        this.playing = true
+        const time = new Date(Date.now() - Date.parse(data.startedTime.started) + Date.parse(new Date().getTimezoneOffset().toString()))
+        this.time = moment(time).format('HH:mm:ss')
+        this.startTime(true)
+      } else {
+        this.playing = false
+      }
+    })
   }
 
   buttonCLick() {
-    console.log('clicked', this.playing)
     if (this.playing) {
       // Stop
       this.loading = true
-      setTimeout(() => {
+      this.timeService.end().subscribe(() => {
         this.playing = false
         this.loading = false
         clearInterval(this.timeInt)
-      }, 1000)
+      })
     } else {
-      this.time = '00:00:00'
-
-      // Timer
-      this.timeInt = setInterval(() => {
-        this.time = moment(this.time, 'HH:mm:ss').add(1, 'second').format('HH:mm:ss')
-      }, 1000)
-      this.loading = true
-      setTimeout(() => {
-        this.playing = true
-        this.loading = false
-      }, 1000)
       // Start
+      this.loading = true
+      this.timeService.start().subscribe(() => {
+        this.playing = true
+        this.startTime()
+        this.loading = false
+      })
     }
   }
 
+  startTime(resume = false) {
+    if (!resume) {
+      this.time = '00:00:00'
+    }
 
+    // Timer
+    this.timeInt = setInterval(() => {
+      this.time = moment(this.time, 'HH:mm:ss').add(1, 'second').format('HH:mm:ss')
+    }, 1000)
+  }
 }

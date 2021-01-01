@@ -14,8 +14,8 @@ module.exports.start = async function(req, res) {
       errorHandler(res, 'Time is already going')
     } else {
       await time.save()
+      res.status(200).json({message: 'started', started: time.started})
     }
-    res.status(200).json({message: 'started', started: time.started})
   } catch (e) {
     errorHandler(res, e)
   }

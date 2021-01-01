@@ -27,3 +27,5 @@ app.use('/api/auth', authRoutes)
 app.use('/api/time', timeRoutes)
 
 module.exports = app
+
+console.log(Date.now())
