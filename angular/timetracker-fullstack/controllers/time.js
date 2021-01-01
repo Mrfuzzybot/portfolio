@@ -25,9 +25,13 @@ module.exports.end = async function(req, res) {
   try {
     const startTime = await Time.findOne({user: req.user.id, ended: undefined})
     if (startTime) {
+      // actions with time
+      const timezoneParsed = Date.parse(new Date().getTimezoneOffset().toString())
+      const timeDif = Date.now() - Date.parse(startTime.started) + timezoneParsed
+
       const updatedTime = await Time.findOneAndUpdate(
         {_id: startTime._id},
-        {$set: {ended: Date.now()}},
+        {$set: {ended: Date.now(), time: new Date(timeDif)}},
         {new: true}
       )
       res.status(200).json({message: 'ended', updatedTime})
@@ -45,12 +49,14 @@ module.exports.get = async function(req, res) {
       user: req.user.id
     }
 
+    let totalMonth = 0
+
     if (req.query.start && !req.query.end) {
       query.date = moment(req.query.date).format('DD.MM.YYYY')
     }
 
     if (req.query.start && req.query.end) {
-      query.start = {
+      query.date = {
         $gte: moment(req.query.start).format('DD.MM.YYYY'),
         $lte: moment(req.query.end).format('DD.MM.YYYY')
       }
@@ -58,7 +64,20 @@ module.exports.get = async function(req, res) {
 
     const times = await Time.find(query)
 
-    res.status(200).json(times)
+    if (req.query.start && req.query.end && req.query.getMonth) {
+      if (times) {
+        totalMonth = [...times].reduce((acc, red) => {
+          const date = new Date(red.time)
+          const hoursToMilSec = date.getHours() * 60 * 60 * 1000
+          const minutesToMilSec = date.getMinutes() * 60 * 1000
+          const secondsToMilSec = date.getSeconds() * 1000
+
+          return acc + hoursToMilSec + minutesToMilSec + secondsToMilSec
+        }, 0)
+      }
+    }
+
+    res.status(200).json({times, totalMonth})
   } catch (e) {
     errorHandler(res, e)
   }

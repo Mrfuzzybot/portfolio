@@ -18,6 +18,10 @@ const timeSchema = new Schema({
     type: String,
     required: false
   },
+  time: {
+    type: Date,
+    required: false
+  },
   user: {
     ref: 'users',
     type: Schema.Types.ObjectId

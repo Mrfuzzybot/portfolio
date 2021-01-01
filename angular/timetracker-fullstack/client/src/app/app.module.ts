@@ -23,8 +23,9 @@ import { LoginComponentComponent } from './auth-page/login-component/login-compo
 import { RegisterComponentComponent } from './auth-page/register-component/register-component.component'
 import { FormsModule, ReactiveFormsModule } from '@angular/forms'
 import { TokenInterceptor } from './shared/classes/token.interceptor'
-import { MainLayoutComponent } from './shared/layouts/main-layout/main-layout.component';
+import { MainLayoutComponent } from './shared/layouts/main-layout/main-layout.component'
 import { AboutPageComponent } from './about-page/about-page.component'
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner'
 
 @NgModule({
   declarations: [
@@ -55,7 +56,8 @@ import { AboutPageComponent } from './about-page/about-page.component'
     MatNativeDateModule,
     MatFormFieldModule,
     MatInputModule,
-    MatTabsModule
+    MatTabsModule,
+    MatProgressSpinnerModule
   ],
   providers: [
     {
