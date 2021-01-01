@@ -1,11 +1,11 @@
 <mat-card>
   <div class="time_wrap">
-    <button mat-fab color="primary">
-      <mat-icon>play_arrow</mat-icon>
+    <button mat-fab color="primary" (click)="buttonCLick()" [disabled]="loading">
+      <mat-icon *ngIf="playing; else playIcon">stop</mat-icon>
+      <ng-template #playIcon>
+        <mat-icon>play_arrow</mat-icon>
+      </ng-template>
     </button>
-<!--    <button mat-fab color="primary">-->
-<!--      <mat-icon>pause</mat-icon>-->
-<!--    </button>-->
-    <h2>00:00:00</h2>
+    <h2 [ngClass]="{loading: loading}">{{time}}</h2>
   </div>
 </mat-card>
