@@ -1,8 +1,9 @@
-import { Component, OnDestroy, OnInit, Output } from '@angular/core'
+import { Component, OnDestroy, OnInit } from '@angular/core'
 import { TimeService } from '../../../shared/services/time.service'
 import * as moment from 'moment'
 import { IntToHHMMSS } from '../../../shared/utils/IntToHHMMSS'
 import { Subscription } from 'rxjs'
+import { FormControl } from '@angular/forms'
 
 @Component({
   selector: 'app-time-table-component',
@@ -16,12 +17,14 @@ export class TimeTableComponentComponent implements OnInit, OnDestroy {
   workedThisDay = '00:00:00'
   loading = true
   tSub: Subscription
+  date: FormControl
 
   displayedColumns: string[] = ['start', 'end', 'comment', 'time']
 
   constructor(private timeService: TimeService) { }
 
   ngOnInit(): void {
+    this.date = new FormControl(new Date())
     this.fetchData()
     this.tSub = this.timeService.shouldRefresh.subscribe(() => {
       this.fetchData()
@@ -35,7 +38,8 @@ export class TimeTableComponentComponent implements OnInit, OnDestroy {
   }
 
   fetchData() {
-    this.timeService.get({start: '01.01.2020', end: '31.01.2021', date: '01.01.2021'}).subscribe(data => {
+    console.log('data fetching')
+    this.timeService.get(moment(this.date.value).format('DD.MM.YYYY')).subscribe(data => {
       this.loading = false
       this.time = data.times.map(time => ({
         start: moment(time.started).format('HH:mm:ss'),
@@ -44,7 +48,12 @@ export class TimeTableComponentComponent implements OnInit, OnDestroy {
         time: moment(time.time).format('HH:mm:ss')
       }))
       this.workedThisMonth = IntToHHMMSS(data.totalMonth)
-      this.workedThisDay = IntToHHMMSS(data.totalMonth)
+      this.workedThisDay = IntToHHMMSS(data.totalThisDay)
     })
+  }
+
+  dateChanged() {
+    console.log('this.date', moment(this.date.value).format('DD.MM.YYYY'))
+    this.fetchData()
   }
 }

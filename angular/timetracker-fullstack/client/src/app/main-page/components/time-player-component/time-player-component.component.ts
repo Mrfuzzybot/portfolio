@@ -23,7 +23,8 @@ export class TimePlayerComponentComponent implements OnInit {
       this.loading = false
       if (data.startedTime) {
         this.playing = true
-        const time = new Date(Date.now() - Date.parse(data.startedTime.started) + Date.parse(new Date().getTimezoneOffset().toString()))
+        const timeZoneOffset = Date.parse(new Date().getTimezoneOffset().toString())
+        const time = new Date(Date.now() - Date.parse(data.startedTime.started) + timeZoneOffset)
         this.time = moment(time).format('HH:mm:ss')
         this.startTime(true)
       } else {

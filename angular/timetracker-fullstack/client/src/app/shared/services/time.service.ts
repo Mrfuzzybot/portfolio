@@ -17,13 +17,8 @@ export class TimeService {
     return this.http.get('/api/time/end')
   }
 
-  get(month): Observable<any>  {
-    let monthFull = ''
-    if (month.start && month.end) {
-      monthFull = `?getMonth=true&start=${month.start}&end=${month.end}&date=${month.date}`
-    }
-
-    return this.http.get(`/api/time/get${monthFull}`)
+  get(date): Observable<any>  {
+    return this.http.get(`/api/time/get?date=${date}`)
   }
 
   getStatus(): Observable<any> {

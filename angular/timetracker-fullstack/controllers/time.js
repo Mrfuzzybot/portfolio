@@ -52,29 +52,20 @@ module.exports.get = async function(req, res) {
     let totalMonth = 0
     let totalThisDay = 0
 
-    if (req.query.start && !req.query.end) {
-      query.date = moment(req.query.date).format('DD.MM.YYYY')
-    }
+    const month = moment(req.query.date, 'DD.MM.YYYY').format('MM')
+    const year = moment(req.query.date, 'DD.MM.YYYY').format('YYYY')
 
-    if (req.query.start && req.query.end) {
-      query.date = {
-        $gte: moment(req.query.start).format('DD.MM.YYYY'),
-        $lte: moment(req.query.end).format('DD.MM.YYYY')
-      }
+    query.date = {
+      $gte: `01.${month}.${year}`,
+      $lte: `31.${month}.${year}`
     }
+    // time this month
+    const timesInMonth = await Time.find(query)
+    totalMonth = calcTime(timesInMonth)
 
-    const times = await Time.find(query)
-
-    if (req.query.date) {
-      const timesInThisDay = await Time.find({...query, date: req.query.date})
-      totalThisDay = calcTime(timesInThisDay)
-    }
-
-    if (req.query.start && req.query.end && req.query.getMonth) {
-      if (times) {
-        totalMonth = calcTime(times)
-      }
-    }
+    // time this day
+    const times = await Time.find({...query, date: req.query.date})
+    totalThisDay = calcTime(times)
 
     res.status(200).json({times, totalMonth, totalThisDay})
   } catch (e) {
