@@ -4,6 +4,7 @@ import * as moment from 'moment'
 import { IntToHHMMSS } from '../../../shared/utils/IntToHHMMSS'
 import { Subscription } from 'rxjs'
 import { FormControl } from '@angular/forms'
+import { Debounce } from '../../../shared/utils/debounce'
 
 @Component({
   selector: 'app-time-table-component',
@@ -41,11 +42,13 @@ export class TimeTableComponentComponent implements OnInit, OnDestroy {
     console.log('data fetching')
     this.timeService.get(moment(this.date.value).format('DD.MM.YYYY')).subscribe(data => {
       this.loading = false
+      console.log('data.times', data.times)
       this.time = data.times.map(time => ({
         start: moment(time.started).format('HH:mm:ss'),
         end: moment(time.ended).format('HH:mm:ss'),
         comment: time.comment,
-        time: moment(time.time).format('HH:mm:ss')
+        time: moment(time.time).format('HH:mm:ss'),
+        id: time._id
       }))
       this.workedThisMonth = IntToHHMMSS(data.totalMonth)
       this.workedThisDay = IntToHHMMSS(data.totalThisDay)
@@ -55,5 +58,12 @@ export class TimeTableComponentComponent implements OnInit, OnDestroy {
   dateChanged() {
     console.log('this.date', moment(this.date.value).format('DD.MM.YYYY'))
     this.fetchData()
+  }
+
+  @Debounce(1000)
+  commenting(e, element) {
+    this.timeService.comment(e.target.value, element.id).subscribe(data => {
+      console.log(data)
+    })
   }
 }

@@ -20,7 +20,12 @@
     <ng-container matColumnDef="comment">
       <th mat-header-cell *matHeaderCellDef>Комментарий</th>
       <td mat-cell *matCellDef="let element">
-        <input matInput [value]="element.comment || ''" placeholder="Комментарий">
+        <input
+          matInput
+          [value]="element.comment || ''"
+          placeholder="Комментарий"
+          (input)="commenting($event, element)"
+        >
       </td>
     </ng-container>
 

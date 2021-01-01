@@ -28,4 +28,8 @@ export class TimeService {
   setShouldRefresh() {
     this.shouldRefresh.next()
   }
+
+  comment(comment: string, id: string): Observable<any> {
+    return this.http.post(`/api/time/comment/${id}`, {comment})
+  }
 }
