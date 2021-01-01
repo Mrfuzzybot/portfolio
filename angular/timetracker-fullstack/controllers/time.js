@@ -50,6 +50,7 @@ module.exports.get = async function(req, res) {
     }
 
     let totalMonth = 0
+    let totalThisDay = 0
 
     if (req.query.start && !req.query.end) {
       query.date = moment(req.query.date).format('DD.MM.YYYY')
@@ -64,20 +65,18 @@ module.exports.get = async function(req, res) {
 
     const times = await Time.find(query)
 
+    if (req.query.date) {
+      const timesInThisDay = await Time.find({...query, date: req.query.date})
+      totalThisDay = calcTime(timesInThisDay)
+    }
+
     if (req.query.start && req.query.end && req.query.getMonth) {
       if (times) {
-        totalMonth = [...times].reduce((acc, red) => {
-          const date = new Date(red.time)
-          const hoursToMilSec = date.getHours() * 60 * 60 * 1000
-          const minutesToMilSec = date.getMinutes() * 60 * 1000
-          const secondsToMilSec = date.getSeconds() * 1000
-
-          return acc + hoursToMilSec + minutesToMilSec + secondsToMilSec
-        }, 0)
+        totalMonth = calcTime(times)
       }
     }
 
-    res.status(200).json({times, totalMonth})
+    res.status(200).json({times, totalMonth, totalThisDay})
   } catch (e) {
     errorHandler(res, e)
   }
@@ -124,4 +123,15 @@ module.exports.getStatus = async function(req, res) {
   } catch (e) {
     errorHandler(res, e)
   }
+}
+
+function calcTime(time) {
+  return [...time].reduce((acc, red) => {
+    const date = new Date(red.time)
+    const hoursToMilSec = date.getHours() * 60 * 60 * 1000
+    const minutesToMilSec = date.getMinutes() * 60 * 1000
+    const secondsToMilSec = date.getSeconds() * 1000
+
+    return acc + hoursToMilSec + minutesToMilSec + secondsToMilSec
+  }, 0)
 }

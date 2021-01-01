@@ -35,11 +35,13 @@ export class TimePlayerComponentComponent implements OnInit {
   buttonCLick() {
     if (this.playing) {
       // Stop
+
       this.loading = true
       this.timeService.end().subscribe(() => {
         this.playing = false
         this.loading = false
         clearInterval(this.timeInt)
+        this.timeService.setShouldRefresh()
       })
     } else {
       // Start
