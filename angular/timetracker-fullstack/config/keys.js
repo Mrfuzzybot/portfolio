@@ -1,5 +1,5 @@
-module.exports = {
-  mongoURI: 'mongodb+srv://kerill:kOY5tnhDR4oTX6l6@cluster0.nyct5.mongodb.net/Timetracker',
-  //?retryWrites=true&w=majority
-  jwt: 'dev-jwt'
+if (process.env.NODE_ENV === 'production') {
+  module.exports = require('./keys.prod')
+} else {
+  module.exports = require('./keys.dev')
 }

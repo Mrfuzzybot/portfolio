@@ -1,4 +1,5 @@
 const express = require('express')
+const path = require('path')
 const mongoose = require('mongoose')
 const passport = require('passport')
 const keys = require('./config/keys')
@@ -26,6 +27,16 @@ app.use(require('cors')())
 app.use('/api/auth', authRoutes)
 app.use('/api/time', timeRoutes)
 
-module.exports = app
+if (process.env.NODE_ENV === 'production') {
+  app.use(express.static('client/dist/timetracker'))
 
-console.log(Date.now())
+  app.get('*', (req, res) => {
+    res.sendFile(
+      path.resolve(
+        __dirname, 'client', 'dist', 'timetracker', 'index.html'
+      )
+    )
+  })
+}
+
+module.exports = app
